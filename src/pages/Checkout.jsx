@@ -208,11 +208,14 @@ export default function Checkout() {
                 <h2 style={{fontWeight:700, fontSize:'2rem'}}>Order Placed!</h2>
                 <p className="text-muted" style={{fontSize:'1rem', lineHeight:1.6}}>Thank you for your order! Your reference is <strong style={{color:'var(--accent)'}}>{orderRef}</strong>.</p>
                 <div className="conf-alert" style={{ background: '#e6f7ed', color: '#0d6538', border: '1px solid #10b981' }}>
-                  ⚠️ <strong>Action Required:</strong> To finalize your order and arrange payment, you must send your order details to our team via WhatsApp.
+                  ⚠️ <strong>Action Required:</strong> To finalize your order and arrange payment, you must send your order details to our team via WhatsApp or Telegram.
                 </div>
                 <div className="flex gap-4 flex-wrap justify-center" style={{width:'100%', marginTop: '1rem'}}>
                   <a href={`https://wa.me/61400000000?text=Hi! I have placed an order on NVape Australia.%0A%0ARef: ${orderRef}%0ATotal: $${total.toFixed(2)} AUD%0APayment Method: ${method}%0A%0APlease provide payment details.`} target="_blank" rel="noreferrer" className="btn btn-primary" style={{ background: '#25D366', borderColor: '#25D366', color: '#fff', fontWeight: 800 }}>
-                    💬 Complete Order on WhatsApp
+                    💬 WhatsApp
+                  </a>
+                  <a href={`https://t.me/nvapeaus?text=Hi! I have placed an order on NVape Australia.%0A%0ARef: ${orderRef}%0ATotal: $${total.toFixed(2)} AUD%0APayment Method: ${method}%0A%0APlease provide payment details.`} target="_blank" rel="noreferrer" className="btn btn-primary" style={{ background: '#0088cc', borderColor: '#0088cc', color: '#fff', fontWeight: 800 }}>
+                    ✈️ Telegram
                   </a>
                   <button className="btn btn-outline" onClick={() => navigate('/')}>Continue Shopping</button>
                 </div>
