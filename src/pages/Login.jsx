@@ -10,27 +10,71 @@ export default function Login() {
   const [showPwd, setShowPwd] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [failedAttempts, setFailedAttempts] = useState(0);
+  const [lockoutUntil, setLockoutUntil] = useState(null);
   const { login, register } = useAuth();
   const navigate = useNavigate();
+
+  const calculateStrength = (pwd) => {
+    let score = 0;
+    if (pwd.length > 5) score += 1;
+    if (pwd.length > 8) score += 1;
+    if (/[A-Z]/.test(pwd)) score += 1;
+    if (/[0-9]/.test(pwd)) score += 1;
+    if (/[^A-Za-z0-9]/.test(pwd)) score += 1;
+    
+    if (pwd.length === 0) return { label: '', color: '#ddd', width: '0%' };
+    if (score < 2) return { label: 'Weak', color: '#ff4d4f', width: '33%' };
+    if (score < 4) return { label: 'Fair', color: '#faad14', width: '66%' };
+    return { label: 'Strong', color: '#52c41a', width: '100%' };
+  };
+
+  const strength = calculateStrength(form.password);
 
   const F = (k) => (e) => setForm(p => ({ ...p, [k]: e.target.value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    // Check lockout
+    if (mode === 'login' && lockoutUntil && Date.now() < lockoutUntil) {
+      const waitMins = Math.ceil((lockoutUntil - Date.now()) / 60000);
+      setError(`Too many failed attempts. Please try again in ${waitMins} minute(s).`);
+      return;
+    }
+
     if (mode === 'register' && form.password !== form.confirm) {
       setError('Passwords do not match.'); return;
     }
-    if (form.password.length < 6) {
+    if (mode === 'register' && form.password.length < 6) {
       setError('Password must be at least 6 characters.'); return;
     }
     setLoading(true);
     await new Promise(r => setTimeout(r, 600)); // simulate network
+    
     const result = mode === 'login'
       ? login(form.email, form.password)
       : register(form.name, form.email, form.password);
+      
     setLoading(false);
-    if (result.error) { setError(result.error); return; }
+    
+    if (result.error) { 
+      setError(result.error); 
+      if (mode === 'login') {
+        const newAttempts = failedAttempts + 1;
+        setFailedAttempts(newAttempts);
+        if (newAttempts >= 3) {
+          setLockoutUntil(Date.now() + 5 * 60000); // 5 minutes lockout
+          setError('Too many failed attempts. Account locked for 5 minutes.');
+        }
+      }
+      return; 
+    }
+    
+    // Success, reset limits
+    setFailedAttempts(0);
+    setLockoutUntil(null);
     navigate('/account');
   };
 
@@ -84,6 +128,18 @@ export default function Login() {
                 {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
+            
+            {mode === 'register' && form.password.length > 0 && (
+              <div style={{ marginTop: '.5rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '.75rem', marginBottom: '.25rem' }}>
+                  <span style={{ color: '#666' }}>Password strength:</span>
+                  <span style={{ color: strength.color, fontWeight: 700 }}>{strength.label}</span>
+                </div>
+                <div style={{ width: '100%', height: '4px', background: '#eee', borderRadius: '2px', overflow: 'hidden' }}>
+                  <div style={{ height: '100%', width: strength.width, background: strength.color, transition: 'all 0.3s' }} />
+                </div>
+              </div>
+            )}
           </div>
 
           {mode === 'register' && (
