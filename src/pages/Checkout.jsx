@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth, saveOrder } from '../context/AuthContext';
-import { Shield, Truck, Copy, Check, ChevronLeft } from 'lucide-react';
+import { Shield, Truck, Copy, Check, ChevronLeft, User } from 'lucide-react';
 import './Checkout.css';
 
 const STEPS = ['Cart', 'Details', 'Payment', 'Confirm'];
@@ -117,32 +117,45 @@ export default function Checkout() {
         <div className="checkout-layout">
           {/* Left Panel */}
           <div>
-            {/* Step 1: Details */}
-            {step === 1 && (
-              <form className="checkout-card" onSubmit={handleSubmit}>
-                <h2 className="section-title">Shipping Details</h2>
-                <div className="form-row">
-                  <div className="form-group"><label>First Name</label><input className="input" required value={form.firstName} onChange={e=>setForm(p=>({...p,firstName:e.target.value}))} /></div>
-                  <div className="form-group"><label>Last Name</label><input className="input" required value={form.lastName} onChange={e=>setForm(p=>({...p,lastName:e.target.value}))} /></div>
+            {!user ? (
+              <div className="checkout-card" style={{ textAlign: 'center', padding: '4rem 2rem' }}>
+                <div style={{ width: '64px', height: '64px', background: 'rgba(210,19,19,.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', color: 'var(--accent)' }}>
+                  <User size={32} />
                 </div>
-                <div className="form-row">
-                  <div className="form-group"><label>Email</label><input className="input" type="email" required value={form.email} onChange={e=>setForm(p=>({...p,email:e.target.value}))} /></div>
-                  <div className="form-group"><label>Phone</label><input className="input" value={form.phone} onChange={e=>setForm(p=>({...p,phone:e.target.value}))} /></div>
-                </div>
-                <div className="form-group"><label>Address</label><input className="input" required value={form.address} onChange={e=>setForm(p=>({...p,address:e.target.value}))} /></div>
-                <div className="form-row three">
-                  <div className="form-group"><label>Suburb</label><input className="input" required value={form.suburb} onChange={e=>setForm(p=>({...p,suburb:e.target.value}))} /></div>
-                  <div className="form-group"><label>State</label>
-                    <select className="input" required value={form.state} onChange={e=>setForm(p=>({...p,state:e.target.value}))}>
-                      <option value="">Select</option>
-                      {['NSW','VIC','QLD','WA','SA','TAS','ACT','NT'].map(s=><option key={s}>{s}</option>)}
-                    </select>
-                  </div>
-                  <div className="form-group"><label>Postcode</label><input className="input" required maxLength={4} value={form.postcode} onChange={e=>setForm(p=>({...p,postcode:e.target.value}))} /></div>
-                </div>
-                <button type="submit" className="btn btn-primary next-btn">Continue to Payment →</button>
-              </form>
-            )}
+                <h2 className="section-title" style={{ marginBottom: '.5rem', border: 'none', padding: 0, textAlign: 'center' }}>Account Required</h2>
+                <p className="text-muted" style={{ marginBottom: '2rem', maxWidth: '400px', margin: '0 auto 2rem', lineHeight: 1.6 }}>Please log in or create a free account to complete your order. This ensures you can securely track your delivery status.</p>
+                <button className="btn btn-primary" onClick={() => navigate('/login?redirect=checkout')} style={{ width: '100%', maxWidth: '280px', margin: '0 auto' }}>
+                  Sign In or Register →
+                </button>
+              </div>
+            ) : (
+              <>
+                {/* Step 1: Details */}
+                {step === 1 && (
+                  <form className="checkout-card" onSubmit={handleSubmit}>
+                    <h2 className="section-title">Shipping Details</h2>
+                    <div className="form-row">
+                      <div className="form-group"><label>First Name</label><input className="input" required value={form.firstName} onChange={e=>setForm(p=>({...p,firstName:e.target.value}))} /></div>
+                      <div className="form-group"><label>Last Name</label><input className="input" required value={form.lastName} onChange={e=>setForm(p=>({...p,lastName:e.target.value}))} /></div>
+                    </div>
+                    <div className="form-row">
+                      <div className="form-group"><label>Email</label><input className="input" type="email" required value={form.email} onChange={e=>setForm(p=>({...p,email:e.target.value}))} disabled /></div>
+                      <div className="form-group"><label>Phone</label><input className="input" value={form.phone} onChange={e=>setForm(p=>({...p,phone:e.target.value}))} /></div>
+                    </div>
+                    <div className="form-group"><label>Address</label><input className="input" required value={form.address} onChange={e=>setForm(p=>({...p,address:e.target.value}))} /></div>
+                    <div className="form-row three">
+                      <div className="form-group"><label>Suburb</label><input className="input" required value={form.suburb} onChange={e=>setForm(p=>({...p,suburb:e.target.value}))} /></div>
+                      <div className="form-group"><label>State</label>
+                        <select className="input" required value={form.state} onChange={e=>setForm(p=>({...p,state:e.target.value}))}>
+                          <option value="">Select</option>
+                          {['NSW','VIC','QLD','WA','SA','TAS','ACT','NT'].map(s=><option key={s}>{s}</option>)}
+                        </select>
+                      </div>
+                      <div className="form-group"><label>Postcode</label><input className="input" required maxLength={4} value={form.postcode} onChange={e=>setForm(p=>({...p,postcode:e.target.value}))} /></div>
+                    </div>
+                    <button type="submit" className="btn btn-primary next-btn">Continue to Payment →</button>
+                  </form>
+                )}
 
             {/* Step 2: Payment */}
             {step === 2 && (
@@ -220,6 +233,8 @@ export default function Checkout() {
                   <button className="btn btn-outline" onClick={() => navigate('/')}>Continue Shopping</button>
                 </div>
               </div>
+            )}
+            </>
             )}
           </div>
 
