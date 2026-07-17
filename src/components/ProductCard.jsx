@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { ShoppingCart, Eye } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useToast } from '../context/ToastContext';
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
+  const { addToast } = useToast();
   const discount = product.originalPrice
     ? Math.round((1 - product.price / product.originalPrice) * 100)
     : null;
@@ -28,7 +30,11 @@ export default function ProductCard({ product }) {
             )}
             {discount && <span className="discount-badge">-{discount}%</span>}
           </div>
-          <button className="btn btn-primary add-to-cart-btn" onClick={() => addToCart(product)}>
+          <button className="btn btn-primary add-to-cart-btn" onClick={(e) => {
+            e.preventDefault(); // prevent link navigation if placed inside one
+            addToCart(product);
+            addToast(`Added ${product.name} to cart`);
+          }}>
             <ShoppingCart size={14} /> Add to Cart
           </button>
         </div>

@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Shield, Truck, RefreshCw, Zap, ChevronRight, Minus, Plus } from 'lucide-react';
 import { products } from '../data/products';
 import { useCart } from '../context/CartContext';
+import { useToast } from '../context/ToastContext';
 import ProductCard from '../components/ProductCard';
 import '../components/ProductCard.css';
 import './ProductDetail.css';
@@ -11,6 +12,7 @@ export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { addToast } = useToast();
   const product = products.find(p => p.id === Number(id));
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
@@ -27,6 +29,7 @@ export default function ProductDetail() {
 
   const handleAdd = () => {
     addToCart(product, qty);
+    addToast(`Added ${qty}x ${product.name} to cart`);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
@@ -129,7 +132,7 @@ export default function ProductDetail() {
               <button className={`btn pd-add-btn${added?' added':''}`} onClick={handleAdd}>
                 <ShoppingCart size={18}/> {added ? '✓ Added!' : 'Add to Cart'}
               </button>
-              <button className="btn btn-outline pd-checkout-btn" onClick={() => { addToCart(product, qty); navigate('/checkout'); }}>
+              <button className="btn btn-outline pd-checkout-btn" onClick={() => { addToCart(product, qty); addToast(`Added ${qty}x ${product.name} to cart`); navigate('/checkout'); }}>
                 Buy Now
               </button>
             </div>
