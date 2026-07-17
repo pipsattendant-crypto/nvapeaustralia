@@ -109,22 +109,28 @@ export default function Home() {
       <section className="section container" id="all-products">
         {isFiltering ? (
           <div className="section-header">
-            <h2 className="section-title">
-              {q ? `Search: "${q}"` : activeCategory !== 'All' ? activeCategory : `Brand: ${activeBrand}`}
-              <span className="result-count"> — {filtered.length} results</span>
-            </h2>
-            <button className="view-all" onClick={() => { setActiveCategory('All'); setActiveBrand('All'); window.history.pushState({}, '', '/'); }}>
-              Clear filters
+            <div>
+              <h2 className="section-title">
+                {q ? `Search: "${q}"` : activeCategory !== 'All' ? activeCategory : `Brand: ${activeBrand}`}
+              </h2>
+              <p className="text-muted" style={{marginTop:'.25rem',fontSize:'.9rem'}}>{filtered.length} products found</p>
+            </div>
+            <button className="btn btn-secondary" style={{fontSize:'.85rem'}} onClick={() => { setActiveCategory('All'); setActiveBrand('All'); window.history.pushState({}, '', '/'); }}>
+              ✕ Clear filters
             </button>
           </div>
         ) : (
           <div className="section-header">
-            <h2 className="section-title">All Products</h2>
+            <div>
+              <h2 className="section-title">Shop All Products</h2>
+              <p className="text-muted" style={{marginTop:'.25rem',fontSize:'.9rem'}}>Browse our complete collection of premium vaping devices.</p>
+            </div>
           </div>
         )}
 
         {/* Filters */}
         <div className="filter-bar">
+          <span className="filter-bar-label">Filter:</span>
           <div className="filter-tabs">
             {['All','Disposables','Pod Kits','Liquids','Accessories'].map(cat => (
               <button key={cat} className={`filter-tab${activeCategory===cat?' active':''}`} onClick={() => setActiveCategory(cat)}>{cat}</button>
