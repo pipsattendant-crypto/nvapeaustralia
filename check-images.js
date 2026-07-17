@@ -1,40 +1,29 @@
+// Quick check for banner product images
 const BASE = 'https://nvapeaustralia-snh4.onrender.com/assets';
 
 const candidates = [
-  // Peach Ice variations
-  'Peach-Ice-280x280.jpg', 'Peach-ice-280x280.jpg', 'peach-ice-280x280.jpg',
-  'Peach-280x280.jpg', 'Peach-Ice-247x296.jpg', 'Peach-247x296.jpg',
-  'Wala-Peach-Ice-280x280.jpg', 'WALA-Peach-Ice-280x280.jpg',
-  // Raspberry Grape variations
-  'Raspberry-Grape-280x280.jpg', 'Raspberry-grape-280x280.jpg',
-  'JNR-Raspberry-Grape-280x280.jpg', 'Raspberry-Grape-600x600.jpg',
-  'Raspberry-Grape.webp', 'Raspberry-Grape-280x280.webp',
-  'JNR-280x280.jpg', 'Raspberry-280x280.jpg',
-  // Cherry Pomegranate variations
-  'Cherry-Pomegranate-280x280.jpg', 'Cherry-pom-280x280.jpg',
-  'Cherry-Pom-280x280.jpg', 'CherryPomegranate-280x280.jpg',
-  'Bang-Cherry-280x280.jpg', 'Cherry-280x280.jpg',
-  // Try listing common other product images
-  'Lychee-Ice-280x280.jpg', 'Watermelon-Ice-280x280.jpg',
-  'Passion-Fruit-280x280.jpg', 'Tropical-280x280.jpg',
-  'Mango-Peach-280x280.jpg', 'Lemon-Ice-280x280.jpg',
+  // INGOT / ALIBARBAR style
+  'INGOT-280x280.jpg','Ingot-280x280.jpg','Alibarbar-Ingot-280x280.jpg',
+  'INR-280x280.jpg','Inr-280x280.jpg',
+  // Banner specific images
+  'banner.jpg','hero.jpg','hero-banner.jpg','banner-products.jpg',
+  'banner-products.png','hero-products.png',
+  // Other product assets
+  'Watermelon-Ice-280x280.jpg','Lychee-Ice-280x280.jpg',
+  'Mixed-Berry-280x280.jpg','Passionfruit-280x280.jpg',
+  'Strawberry-Ice-280x280.jpg','Apple-Ice-280x280.jpg',
+  'Menthol-280x280.jpg','Tobacco-280x280.jpg',
+  // CHUPPA
+  'Chuppa-Chupps-280x280.jpg','Chuppa-Chupps-247x296.jpg',
+  'CuppaChupps-280x280.jpg','Chupa-Chups-280x280.jpg',
 ];
 
 async function check() {
   const found = [];
   for (const f of candidates) {
-    try {
-      const res = await fetch(`${BASE}/${f}`, { method: 'HEAD' });
-      if (res.ok) {
-        console.log(`✅ FOUND: ${f}`);
-        found.push(f);
-      } else {
-        process.stdout.write(`❌ ${f}\n`);
-      }
-    } catch (e) {
-      console.log(`💥 ${f}`);
-    }
+    const res = await fetch(`${BASE}/${f}`, { method: 'HEAD' }).catch(() => ({ ok: false }));
+    if (res.ok) { console.log(`✅ ${f}`); found.push(f); }
   }
-  console.log('\n✅ All found:', found.join(', '));
+  console.log('\nFound:', found.length ? found.join(', ') : 'none');
 }
 check();

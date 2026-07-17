@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Truck, Shield, Star, Zap, RefreshCw, Award, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
+import HeroBanner from '../components/HeroBanner';
 import { products, reviews, brands } from '../data/products';
 import '../components/ProductCard.css';
 import './Home.css';
@@ -36,46 +37,9 @@ export default function Home() {
 
   return (
     <div>
-      {/* Hero */}
-      {!isFiltering && (
-        <section className="hero">
-          <div className="hero-inner" style={{backgroundImage:`url(${HERO_IMG})`}}>
-            <div className="hero-overlay" />
-            <div className="hero-content container">
-              <p className="hero-tag">🇦🇺 Australia's #1 Vape Store</p>
-              <h1 className="hero-title">Premium Vapes<br/>Delivered Fast</h1>
-              <p className="hero-sub">Shop 500+ products from top brands. Free shipping on orders $50+.</p>
-              <div className="hero-btns">
-                <a href="#products" className="btn btn-primary hero-btn">Shop Now <ChevronRight size={18}/></a>
-                <a href="#brands" className="btn btn-secondary hero-btn">Browse Brands</a>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
+      {/* Hero Banner */}
+      {!isFiltering && <HeroBanner />}
 
-      {/* Trust Bar */}
-      {!isFiltering && (
-        <section className="trust-bar">
-          <div className="container trust-grid">
-            {[
-              { icon: <Truck size={22}/>, title:'Free Shipping', desc:'On orders $50+' },
-              { icon: <Zap size={22}/>, title:'Same Day Dispatch', desc:'Order before 2PM' },
-              { icon: <Shield size={22}/>, title:'Secure Payments', desc:'Bank transfer & crypto' },
-              { icon: <RefreshCw size={22}/>, title:'Easy Returns', desc:'7-day return policy' },
-              { icon: <Award size={22}/>, title:'Genuine Products', desc:'100% authentic brands' },
-            ].map((f,i) => (
-              <div key={i} className="trust-item">
-                <div className="trust-icon">{f.icon}</div>
-                <div>
-                  <p className="trust-title">{f.title}</p>
-                  <p className="trust-desc">{f.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
 
       {/* Best Sellers */}
       {!isFiltering && (
