@@ -1,0 +1,15 @@
+.shipping-highlights { display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; margin-bottom:3rem; }
+.ship-highlight { text-align:center; padding:2rem; background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius-lg); }
+.ship-icon { color:var(--accent); margin-bottom:1rem; display:flex; justify-content:center; }
+.ship-highlight h3 { font-size:1rem; font-weight:700; margin-bottom:.5rem; }
+.shipping-table-wrapper { overflow-x:auto; margin-bottom:2.5rem; }
+.shipping-table { width:100%; border-collapse:collapse; background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; }
+.shipping-table th { text-align:left; padding:1rem 1.5rem; background:var(--bg3); border-bottom:1px solid var(--border); font-size:.75rem; text-transform:uppercase; letter-spacing:.08em; color:var(--text2); }
+.shipping-table td { padding:1rem 1.5rem; border-bottom:1px solid var(--border); font-size:.9375rem; }
+.shipping-table tr:last-child td { border-bottom:none; }
+.shipping-table tr.highlighted td { background:rgba(210,19,19,.05); }
+.free-ship { color:var(--success); font-weight:700; }
+.ship-notes { }
+.ship-note-card { background:var(--bg2); border:1px solid var(--border); border-left:4px solid var(--accent); border-radius:var(--radius-md); padding:1.5rem; }
+.ship-note-card ul { display:flex; flex-direction:column; gap:.5rem; padding-left:1.25rem; list-style:disc; color:var(--text2); font-size:.9rem; }
+@media (max-width:768px) { .shipping-highlights { grid-template-columns:1fr; } }

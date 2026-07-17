@@ -1,0 +1,12 @@
+.login-page { display:flex; align-items:center; justify-content:center; padding:3rem 1rem; background:var(--bg2); }
+.login-card { background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg); width:100%; max-width:420px; padding:2.5rem 2rem; box-shadow:0 10px 30px rgba(0,0,0,.08); }
+.login-header { text-align:center; margin-bottom:1.75rem; }
+.login-title { color:var(--text); font-size:1.75rem; font-weight:700; margin-bottom:.35rem; }
+.login-subtitle { font-size:.875rem; line-height:1.5; }
+.form-label { display:block; font-size:.85rem; font-weight:600; color:var(--text); margin-bottom:.5rem; }
+.input-with-icon { position:relative; width:100%; }
+.input-icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#777; pointer-events:none; }
+.input-indented { padding-left:38px !important; background:var(--bg2) !important; border-color:var(--border) !important; color:var(--text) !important; }
+.input-indented:focus { border-color:var(--accent) !important; }
+.login-btn { width:100%; margin-top:.25rem; }
+.login-footer { border-top:1px solid var(--border); margin-top:1.5rem; padding-top:1rem; }

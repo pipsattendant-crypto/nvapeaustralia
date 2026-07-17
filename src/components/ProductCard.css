@@ -1,0 +1,18 @@
+.product-card { display:flex; flex-direction:column; height:100%; transition:all .3s; border:1px solid transparent; border-radius:0; overflow:hidden; }
+.product-card:hover { box-shadow:0 5px 20px rgba(0,0,0,.1); }
+.product-image-container { display:block; aspect-ratio:1; background:#fff; border:1px solid var(--border); text-decoration:none; position:relative; overflow:hidden; border-radius:var(--radius-sm); }
+.product-image { width:100%; height:100%; object-fit:contain; transition:transform .5s; padding:.5rem; }
+.product-card:hover .product-image { transform:scale(1.05); }
+.product-badge { position:absolute; top:.5rem; left:.5rem; background:var(--accent); color:#fff; font-size:.65rem; font-weight:700; text-transform:uppercase; padding:.2rem .5rem; border-radius:2px; z-index:2; }
+.product-overlay { position:absolute; inset:0; background:rgba(255,255,255,.2); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .3s; }
+.product-card:hover .product-overlay { opacity:1; }
+.quick-view-hint { background:#fff; color:var(--text); padding:.5rem 1rem; border-radius:2px; font-size:.8rem; font-weight:600; display:flex; align-items:center; gap:.35rem; transform:translateY(16px); transition:transform .3s; box-shadow:0 2px 8px rgba(0,0,0,.15); }
+.product-card:hover .quick-view-hint { transform:translateY(0); }
+.product-info { display:flex; flex-direction:column; flex:1; gap:.3rem; padding:.75rem .25rem; text-align:center; }
+.product-category { font-size:.7rem; text-transform:uppercase; color:var(--text2); font-weight:400; }
+.product-name { color:var(--text); font-size:.9rem; font-weight:500; line-height:1.3; flex:1; transition:color .2s; }
+.product-name:hover { color:var(--accent); }
+.product-footer { display:flex; flex-direction:column; align-items:center; gap:.5rem; margin-top:.25rem; }
+.product-price { font-size:1rem; font-weight:700; color:var(--text); }
+.discount-badge { background:rgba(210,19,19,.15); color:var(--accent); border:1px solid rgba(210,19,19,.3); border-radius:var(--radius-full); padding:.15rem .5rem; font-size:.7rem; font-weight:700; }
+.add-to-cart-btn { width:100%; padding:.4rem .75rem; font-size:.8rem; border-radius:2px; }
