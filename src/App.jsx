@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
+import { AuthProvider } from './context/AuthContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import CartSidebar from './components/CartSidebar';
@@ -10,6 +11,7 @@ import Checkout from './pages/Checkout';
 import TrackOrder from './pages/TrackOrder';
 import Shipping from './pages/Shipping';
 import Login from './pages/Login';
+import Account from './pages/Account';
 
 function NotFound() {
   return (
@@ -23,24 +25,27 @@ function NotFound() {
 
 export default function App() {
   return (
-    <CartProvider>
-      <BrowserRouter>
-        <Header />
-        <CartSidebar />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/track" element={<TrackOrder />} />
-            <Route path="/shipping" element={<Shipping />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </main>
-        <Footer />
-        <FloatingWidgets />
-      </BrowserRouter>
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <BrowserRouter>
+          <Header />
+          <CartSidebar />
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/track" element={<TrackOrder />} />
+              <Route path="/shipping" element={<Shipping />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/account" element={<Account />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+          <Footer />
+          <FloatingWidgets />
+        </BrowserRouter>
+      </CartProvider>
+    </AuthProvider>
   );
 }

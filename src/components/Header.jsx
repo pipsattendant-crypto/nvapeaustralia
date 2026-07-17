@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingCart, Search, ChevronDown, Menu, X } from 'lucide-react';
+import { ShoppingCart, Search, ChevronDown, Menu, X, User } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { brands } from '../data/products';
 import './Header.css';
 
 export default function Header() {
   const { cartCount, cartTotal, setIsCartOpen } = useCart();
+  const { user } = useAuth();
   const [showBrands, setShowBrands] = useState(false);
   const [searchVal, setSearchVal] = useState('');
   const [scrolled, setScrolled] = useState(false);
@@ -69,7 +71,11 @@ export default function Header() {
             </li>
             <li><Link to="/shipping">Shipping & FAQ</Link></li>
             <li><Link to="/track">Track Order</Link></li>
-            <li><Link to="/login">My account</Link></li>
+            {user ? (
+              <li><Link to="/account">👤 {user.name.split(' ')[0]}</Link></li>
+            ) : (
+              <li><Link to="/login">My account</Link></li>
+            )}
           </ul>
           <button className="cart-total-btn" onClick={() => setIsCartOpen(true)}>
             🛒 Cart / AUD ${(cartTotal || 0).toFixed(2)}

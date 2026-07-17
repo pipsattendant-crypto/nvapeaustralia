@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth, saveOrder } from '../context/AuthContext';
 import { Shield, Truck, Copy, Check, ChevronLeft } from 'lucide-react';
 import './Checkout.css';
 
@@ -15,11 +16,17 @@ const BANK = {
 
 export default function Checkout() {
   const { cartItems, cartTotal, clearCart } = useCart();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [method, setMethod] = useState('bank');
   const [copied, setCopied] = useState({});
-  const [form, setForm] = useState({ firstName:'', lastName:'', email:'', phone:'', address:'', suburb:'', state:'', postcode:'' });
+  const [form, setForm] = useState({ 
+    firstName: user ? user.name.split(' ')[0] : '', 
+    lastName: user && user.name.split(' ').length > 1 ? user.name.split(' ').slice(1).join(' ') : '', 
+    email: user ? user.email : '', 
+    phone: '', address: '', suburb: '', state: '', postcode: '' 
+  });
   const [orderRef] = useState(`NVP-${Date.now().toString().slice(-6)}`);
 
   const FREE_SHIP = cartTotal >= 50;
@@ -33,6 +40,21 @@ export default function Checkout() {
   };
 
   const handleSubmit = (e) => { e.preventDefault(); setStep(2); };
+
+  const handlePlaceOrder = () => {
+    saveOrder({
+      ref: orderRef,
+      email: form.email.toLowerCase(),
+      total,
+      date: new Date().toISOString(),
+      items: cartItems.map(i => ({ name: i.name, qty: i.qty, price: i.price })),
+      status: 'Processing',
+      shipping: form,
+      method
+    });
+    clearCart();
+    setStep(3);
+  };
 
   if (cartItems.length === 0 && step < 3) return (
     <div className="checkout-page container" style={{textAlign:'center', padding:'5rem 1rem'}}>
@@ -173,7 +195,7 @@ export default function Checkout() {
 
                 <div className="flex justify-between items-center" style={{marginTop:'1rem'}}>
                   <button className="back-link flex items-center gap-1 text-muted" onClick={() => setStep(1)}><ChevronLeft size={16}/> Back</button>
-                  <button className="btn btn-primary" onClick={() => { clearCart(); setStep(3); }}>Place Order →</button>
+                  <button className="btn btn-primary" onClick={handlePlaceOrder}>Place Order →</button>
                 </div>
                 <p className="secure-note flex items-center justify-center gap-2 text-muted text-sm"><Shield size={14}/> Your information is secure and encrypted</p>
               </div>
