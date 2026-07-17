@@ -1,0 +1,20 @@
+/* Account page specific styles */
+.account-nav-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.account-nav-btn:hover {
+  background: rgba(210,19,19,.04) !important;
+}
+
+.account-nav-btn.active:hover {
+  background: rgba(210,19,19,.08) !important;
+}
+
+@media (max-width: 768px) {
+  .account-layout {
+    grid-template-columns: 1fr !important;
+  }
+}
