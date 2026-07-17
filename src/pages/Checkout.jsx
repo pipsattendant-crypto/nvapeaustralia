@@ -206,13 +206,15 @@ export default function Checkout() {
               <div className="confirmation-screen">
                 <div style={{fontSize:'4rem'}}>🎉</div>
                 <h2 style={{fontWeight:700, fontSize:'2rem'}}>Order Placed!</h2>
-                <p className="text-muted" style={{fontSize:'1rem', lineHeight:1.6}}>Thank you for your order! Your reference is <strong style={{color:'var(--accent)'}}>{orderRef}</strong>. We'll send you a confirmation once payment is received.</p>
-                <div className="conf-alert">
-                  ⚠️ Please complete your payment using the details provided. Your order will be dispatched once payment is confirmed.
+                <p className="text-muted" style={{fontSize:'1rem', lineHeight:1.6}}>Thank you for your order! Your reference is <strong style={{color:'var(--accent)'}}>{orderRef}</strong>.</p>
+                <div className="conf-alert" style={{ background: '#e6f7ed', color: '#0d6538', border: '1px solid #10b981' }}>
+                  ⚠️ <strong>Action Required:</strong> To finalize your order and arrange payment, you must send your order details to our team via WhatsApp.
                 </div>
-                <div className="flex gap-4 flex-wrap justify-center" style={{width:'100%'}}>
-                  <button className="btn btn-primary" onClick={() => navigate('/')}>Continue Shopping</button>
-                  <a href="https://wa.me/61400000000" target="_blank" rel="noreferrer" className="btn btn-outline">Contact Support</a>
+                <div className="flex gap-4 flex-wrap justify-center" style={{width:'100%', marginTop: '1rem'}}>
+                  <a href={`https://wa.me/61400000000?text=Hi! I have placed an order on NVape Australia.%0A%0ARef: ${orderRef}%0ATotal: $${total.toFixed(2)} AUD%0APayment Method: ${method}%0A%0APlease provide payment details.`} target="_blank" rel="noreferrer" className="btn btn-primary" style={{ background: '#25D366', borderColor: '#25D366', color: '#fff', fontWeight: 800 }}>
+                    💬 Complete Order on WhatsApp
+                  </a>
+                  <button className="btn btn-outline" onClick={() => navigate('/')}>Continue Shopping</button>
                 </div>
               </div>
             )}
