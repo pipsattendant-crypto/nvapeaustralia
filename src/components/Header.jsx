@@ -6,7 +6,7 @@ import { brands } from '../data/products';
 import './Header.css';
 
 export default function Header() {
-  const { cartCount, setIsCartOpen } = useCart();
+  const { cartCount, cartTotal, setIsCartOpen } = useCart();
   const [showBrands, setShowBrands] = useState(false);
   const [searchVal, setSearchVal] = useState('');
   const [scrolled, setScrolled] = useState(false);
@@ -52,7 +52,7 @@ export default function Header() {
         <div className="container nav-inner">
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/?category=Disposables">Disposables</Link></li>
+            <li><Link to="/?category=Disposables">Hot Sales</Link></li>
             <li>
               <div className="brands-dropdown-container" onMouseEnter={() => setShowBrands(true)} onMouseLeave={() => setShowBrands(false)}>
                 <button className="brands-dropdown-trigger">
@@ -67,11 +67,12 @@ export default function Header() {
                 )}
               </div>
             </li>
-            <li><Link to="/shipping">Shipping</Link></li>
+            <li><Link to="/shipping">Shipping & FAQ</Link></li>
             <li><Link to="/track">Track Order</Link></li>
+            <li><Link to="/login">My account</Link></li>
           </ul>
           <button className="cart-total-btn" onClick={() => setIsCartOpen(true)}>
-            🛒 Cart
+            🛒 Cart / AUD ${(cartTotal || 0).toFixed(2)}
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </button>
         </div>
